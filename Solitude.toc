@@ -1,0 +1,7 @@
+## Interface: 40300
+## Title: Solitude
+## Author: Lanrutcon
+## Notes: SkyObjectives
+## Version: 1.0
+
+Solitude.lua
