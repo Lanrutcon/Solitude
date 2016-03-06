@@ -1,6 +1,12 @@
 local Addon = CreateFrame("FRAME");
 local solitudeFrame;
 
+
+-------------------------------------
+--
+-- Initialize mainFrame, solitudeFrame.
+--
+-------------------------------------
 local function initSolitude()
 
 	solitudeFrame = CreateFrame("MessageFrame", "Solitude");
@@ -18,8 +24,8 @@ local function initSolitude()
 	solitudeFrame:SetScript("OnEvent", function(self, event, text)
 		if(text == "Objective Complete.") then
 			PlaySoundFile("Interface\\AddOns\\Solitude\\Sounds\\ui_quest_update.mp3", "SFX");
-		else
-			PlaySoundFile("Interface\\AddOns\\Solitude\\Sounds\\ui_objective_new_01.mp3", "SFX");
+		elseif(not text:find("fish")) then --filtering fishing messages
+			PlaySoundFile("Interface\\AddOns\\Solitude\\Sounds\\ui_objective_new_0"..math.random(3)..".mp3", "SFX");
 		end
 		self:AddMessage(text, 0.9, 0.9, 0.9, 1);
 	end);
@@ -29,11 +35,19 @@ local function initSolitude()
 end
 
 
-
-
+-------------------------------------
+--
+-- Addon SetScript OnEvent
+-- It starts up solitudeFrame when the player enters the world.
+-- It also removes "UI_INFO_MESSAGE" event from UIErrorsFrame.
+--
+-- Handled events:
+-- "PLAYER_ENTERING_WORLD"
+--
+-------------------------------------
 Addon:SetScript("OnEvent", function(self, event, ...)
 	initSolitude();
-	--Removing UI_INFO_MESSAGE
+	--Removing UI_INFO_MESSAGE event from UIErrorsFrame
 	UIErrorsFrame:UnregisterEvent("UI_INFO_MESSAGE");
 	Addon:UnregisterAllEvents();
 end);
